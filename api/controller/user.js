@@ -50,7 +50,7 @@ exports.Register = async (req, res) => {
       .json({ message: "User Register Successfully", result: result })
   } catch (err) {
     console.error(err.message)
-    res
+    return res
       .status(500)
       .json({ message: "Error occurred, Please try again later", error: err })
   }
@@ -74,7 +74,7 @@ exports.login = async (req, res) => {
     //
     const user = await UserDB.findOne({ email: req.body.email })
     if (!user) {
-      return res.status(401).json({ message: "Email Not Exits" })
+      return res.status(409).json({ message: "Email Not Exits" })
     }
     const password = await bcrypt.compare(req.body.password, user.password)
     if (!password) {
